@@ -1,17 +1,14 @@
-# import the required modules
+import os
 from rembg import remove
 from PIL import Image
 
-input_path = 'images.jpeg'
+input_dir = "input_images"
+output_dir = "output_images"
 
-output_path = 'images_transparent.png'
+os.makedirs(output_dir, exist_ok=True)
 
-# processing the image
-input = Image.open(input_path)
-
-# removing the background
-output = remove(input)
-
-# save the image
-output.save(output_path)
-
+for file in os.listdir(input_dir):
+    if file.lower().endswith((".png", ".jpg", ".jpeg")):
+        img = Image.open(os.path.join(input_dir, file))
+        out = remove(img)
+        out.save(os.path.join(output_dir, file.split('.')[0] + ".png"))
